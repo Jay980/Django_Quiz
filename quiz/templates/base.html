@@ -1,0 +1,86 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>{% trans "Example Quiz Website" %} | {% block title %}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{% endblock %}">
+
+  <!-- styles -->
+  <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+    crossorigin="anonymous">
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="/static/style.css">
+<style>
+ 
+</style>
+</head>
+
+<body class="bgg">
+  
+  <br>
+  <nav>
+    <ul>
+      <a onclick=location.href="{% url 'index' %}"; >
+      <li>
+        <div class="home-icon" li>
+          <img src="/static/images/home.png" style="width: 40px; height: 40px;" alt="" srcset="">
+        </div>
+      </li>
+    </a>
+      {% if user.is_authenticated %}
+
+     <li onclick=location.href="{% url 'quiz_index' %}"; >
+        <div class="about-icon">
+           <img src="/static/images/quiz-on-computer-with-question-signs-around.png" style="width: 40px; height: 40px;" alt="">
+        </div>
+      </li>
+     <li onclick=location.href="{% url 'quiz_progress' %}";>
+        <div class="work-icon">
+          <img src="/static/images/trophy.png" style="width: 40px; height: 40px;" alt="" srcset=""> 
+        </div>
+      </li> 
+      <li onclick=location.href="{% url 'logout' %}";>
+        {% endif %}
+        <div class="mail-icon">
+          {% if user.is_authenticated %}
+          <a class="nav-link" href="{% url 'logout' %}"><img src="/static/images/user.png" style="width: 40px; height: 40px;" alt="" srcset=""></a>
+          {% else %}
+          <a class="nav-link" href="{% url 'login' %}">   <img src="/static/images/user.png" style="width: 40px; height: 40px;" alt="" srcset=""></a>
+          {% endif %}
+      
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Before the quiz content -->
+
+  <div class="container">
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-warning alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><sup>&times;</sup></span>
+      </button>
+      {{message}}
+    </div>
+    {% endfor %} {% endif %} {% block content %} {% endblock %}
+
+  </div>
+
+  <!-- After the quiz content -->
+
+
+</body>
+<script>
+  $(li).click(function(){
+    $(this).children().click();
+});
+</script>
+</html>

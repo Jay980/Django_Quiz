@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load quiz_tags %}
+{% block title %}{% trans "All Quizzes" %}{% endblock %}
+{% block content %}
+<style>
+  body{
+    background-image: url("/static/images/backgroundimage.png"); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 500px; /* You must set a specified height */
+  background-position: center 0px; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+  }
+    .styled-table {
+    border-collapse: collapse;
+      position: relative;
+      top: -390px;
+      left: 250px;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 160%;
+}
+.styled-table thead tr {
+    background-color:#DC143C;
+    color: #ffffff !important;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid  #DC143C;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #DC143C;
+}
+tr:hover {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  color: #DC143C ;
+}
+.alignn{
+  margin-left: 50px !important;
+}
+.all{
+  color: #025c48bd ;
+  font-weight: bolder;
+  font-size: 15px;
+}
+.headingg{
+    margin-top: -120px;
+    height: 100px;
+    width: 280%;
+    margin-left: -20px;
+    background-color: 		#232b2b;
+    color: white;
+
+  }
+  .Fonti{
+    margin:auto;
+    display: block;
+    width: 28%;
+font-size: 52px;
+font-family: 'Montserrat', sans-serif;
+text-transform: uppercase;
+text-shadow: 1px 1px 0px #DC143C,
+2px 2px 0px #DC143C,
+3px 3px 0px #DC143C,
+4px 4px 0px #DC143C;
+
+  }
+</style>
+
+<div class="headingg"> <span class="Fonti">{% trans "Quiz List" %}</span></div>
+  <body>
+
+    {% if quiz_list %}
+		<table class="alignn styled-table table-bordered table-striped " >
+
+		  <thead>
+			<tr >
+			  <th >{% trans "Title" %}</th>
+			  <th>{% trans "Category" %}</th>
+			  <th>Quiz</th>
+			</tr>
+		  </thead>
+
+		  <tbody>
+
+        {% for quiz in quiz_list %}
+
+  			<tr class="all">
+			  <td>{{ quiz.title }}</td>
+              <td>{{ quiz.category }}</td>
+        
+			  <td>
+				<a href="{% url 'quiz_start_page' slug=quiz.url %}">
+				 <button class="btn btn-primary"> {% trans "Go to Quiz" %}</button>
+				</a>
+			</tr>
+
+        {% endfor %}
+		  </tbody>
+
+		</table>
+
+	{% else %}
+        <p>{% trans "There are no available quizzes" %}.</p>
+    {% endif %}
+{% endblock %}
+
+</body>

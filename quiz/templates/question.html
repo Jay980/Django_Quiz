@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load i18n%}
+
+
+
+{% block title %} {{ quiz.title }} {% endblock %}
+{% block description %} {{ quiz.title }} - {{ quiz.description }} {% endblock %}
+
+{% block content %}
+<style>
+	.qu{
+		margin-left: 200px;
+		position: relative;
+		left: 180px;
+	}
+	.radios:hover {
+  box-shadow: 20px 20px 40px rgba(0,0,0,0.4);
+  transform: scale(1.10,1.10);}
+  .headingg{
+    margin-top: -120px;
+    height: 100px;
+    width: 1536px;
+    margin-left: -15px;
+    background-color: 		#232b2b;
+    color: white;
+
+  }
+  .Fonti{
+    margin:auto;
+    display: block;
+    width: 28%;
+font-size: 52px;
+font-family: 'Montserrat', sans-serif;
+text-transform: uppercase;
+text-shadow: 1px 1px 0px #DC143C,
+2px 2px 0px #DC143C,
+3px 3px 0px #DC143C,
+4px 4px 0px #DC143C;
+position: relative;
+left: 150px;
+top: 10px;
+
+  }
+</style>
+<div class="headingg"> <span class="Fonti">{% trans "Quiz" %}</span></div>
+<div class="cont">
+{% if previous.answers %}
+
+  <p class="muted"><small>{% trans "The previous question" %}:</small></p>
+  <p>{{ previous.previous_question }}</p>
+
+  {% if previous.previous_outcome %}
+	<div class="alert alert-success">
+  {% else %}
+	<div class="alert alert-warning">
+  {% endif %}
+  	  <p><small>
+		{% trans "Your answer was" %} </small>
+		<strong>
+		  {{ previous.previous_outcome|yesno:"correct,incorrect" }}
+		</strong>
+	  </p>
+
+	</div>
+
+	{% include 'correct_answer.html' %}
+
+	<p><strong>{% trans "Explanation" %}:</strong></p>
+	<div class="well " style="background-color: #fcf8e3;">
+	  <p>{{ previous.previous_question.explanation }}</p>
+	</div>
+
+	<hr>
+</div>
+{% endif %}
+
+<br />
+
+
+<div class="qu">
+	{% if question %}
+
+{% if progress %}
+<div style="float: right;">
+{% trans "Question" %} {{ progress.0|add:1 }} {% trans "of" %} {{ progress.1 }}
+</div>
+{% endif %}
+<p>
+  <small class="muted" style="font-size: 20px;">{% trans "Question category" %}:</small>
+  <strong>{{ question.category }}</strong>
+</p>
+
+<p class="lead">{{ question.content }}</p>
+
+
+<form action="" method="POST">{% csrf_token %}
+  <input type=hidden name="question_id" value="{{ question.id }}">
+
+  <ul class="list-group">
+
+	{% for answer in form.answers %}
+	<br>
+	  <li class="list-group-item radios">
+	    {{ answer }}
+	  </li>
+	{% endfor %}
+
+  </ul>
+  <br>
+    {% if progress.0|add:1 == progress.1 %}
+    <input type="submit" value={% trans "Submit" %} class="btn btn-large btn-block btn-warning" >
+    {% else %}
+        <input type="submit" value={% trans "Next" %} class="btn btn-large btn-block btn-warning" >
+    {% endif %}
+</form>
+
+{% endif %}
+
+<hr>
+
+
+{% endblock %}
+</div>
